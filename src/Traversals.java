@@ -12,7 +12,15 @@ public class Traversals {
    * @return the sum of leaf node values, or 0 if the tree is null
    */
   public static int sumLeafNodes(TreeNode<Integer> node) {
-    return 0;
+    int total = 0;
+    if(node == null)
+    {
+      return 0;
+    }
+    if(node.right == null && node.left == null) return node.value;
+    
+    total = sumLeafNodes(node.right) + sumLeafNodes(node.left); 
+    return total;
   }
 
   /**
@@ -24,7 +32,17 @@ public class Traversals {
    * @return the count of internal nodes, or 0 if the tree is null
    */
   public static int countInternalNodes(TreeNode<Integer> node) {
-    return 0;
+    int count = 0;
+    if(node == null)
+    {
+      return 0;
+    }
+
+    if(node.right == null && node.left == null) return 0;
+    
+    
+    count = countInternalNodes(node.left) + countInternalNodes(node.right);
+    return count + 1;
   }
 
   /**
@@ -38,7 +56,16 @@ public class Traversals {
    * @return a post-order traversal string, or an empty string if the tree is null
    */
   public static <T> String buildPostOrderString(TreeNode<T> node) {
-    return null;
+    String concat = "";
+    if(node == null)
+    {
+      return "";
+    }
+
+    concat +=buildPostOrderString(node.left);
+    concat +=buildPostOrderString(node.right);
+    
+    return concat+=node.value;
   }
 
   /**
@@ -50,7 +77,31 @@ public class Traversals {
    * @return a list of node values in a top-to-bottom order, or an empty list if the tree is null
    */
   public static <T> List<T> collectLevelOrderValues(TreeNode<T> node) {
-    return null;
+    Queue<T> queue = new LinkedList<>();
+    List<T> list = new ArrayList<>();
+    if(node == null)
+    {
+      return list;
+    }
+
+    queue.add(node);
+
+    while(!queue.isEmpty())
+    {
+      TreeNode<?> current = queue.poll();
+
+      if(current == null)
+      {
+        continue;
+      }
+
+      queue.add(current.left.value);
+      queue.add(current.right.value);
+      
+      list.add(queue.poll());
+    }
+    return list;
+
   }
 
   /**
