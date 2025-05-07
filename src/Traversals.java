@@ -85,14 +85,10 @@ public class Traversals {
       return list;
     }
 
-    //stack.push(current)
     queue.add(node);
-    //while !stack.empty()
     while(!queue.isEmpty())
     {
-    //  node = stack.pop()
       TreeNode<T> current = queue.poll();
-      //  if null: continue
       if(current == null)
       {
         continue;
@@ -112,23 +108,27 @@ public class Traversals {
    * @return the number of unique values in the tree, or 0 if the tree is null
    */
   public static int countDistinctValues(TreeNode<Integer> node) {
-    int count = 0;
+    Stack<TreeNode<Integer>> stack = new Stack<>();
+    Set<Integer> list = new HashSet<>();
+
     if(node == null)
     {
       return 0;
     }
-    List<Integer> list = new ArrayList<Integer>();
 
-    list.add(node.value);
-
-    if(list.contains(node.value))
+    stack.add(node);
+    while(!stack.isEmpty())
     {
-      count++;
-    }
-    countDistinctValues(node.right);
-    countDistinctValues(node.left);
-
-    return count;
+      TreeNode<Integer> current = stack.pop();
+      if(current == null)
+      {
+        continue;
+      }
+      list.add(current.value);
+      stack.add(current.left);
+      stack.add(current.right);
+  }
+  return list.size();
   }
 
   /**
@@ -140,7 +140,14 @@ public class Traversals {
    * @return true if there exists a strictly increasing root-to-leaf path, false otherwise
    */
   public static boolean hasStrictlyIncreasingPath(TreeNode<Integer> node) {
-    return false;
+    Stack<TreeNode<Integer>> stack = new Stack<>();
+    Set<Integer> list = new HashSet<>();
+
+    if(node == null)
+    {
+      return false;
+    }
+return false;
   }
 
   // OPTIONAL CHALLENGE
