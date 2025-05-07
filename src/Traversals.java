@@ -77,32 +77,32 @@ public class Traversals {
    * @return a list of node values in a top-to-bottom order, or an empty list if the tree is null
    */
   public static <T> List<T> collectLevelOrderValues(TreeNode<T> node) {
-    Queue<T> queue = new LinkedList<>();
+    Queue<TreeNode<T>> queue = new LinkedList<>();
     List<T> list = new ArrayList<>();
+
     if(node == null)
     {
       return list;
     }
 
+    //stack.push(current)
     queue.add(node);
-
+    //while !stack.empty()
     while(!queue.isEmpty())
     {
-      TreeNode<?> current = queue.poll();
-
+    //  node = stack.pop()
+      TreeNode<T> current = queue.poll();
+      //  if null: continue
       if(current == null)
       {
         continue;
       }
-
-      queue.add(current.left.value);
-      queue.add(current.right.value);
-      
-      list.add(queue.poll());
-    }
-    return list;
-
+      list.add(current.value);
+      queue.add(current.left);
+      queue.add(current.right);
   }
+  return list;
+}
 
   /**
    * Counts the distinct values in the given tree.
@@ -112,7 +112,23 @@ public class Traversals {
    * @return the number of unique values in the tree, or 0 if the tree is null
    */
   public static int countDistinctValues(TreeNode<Integer> node) {
-    return 0;
+    int count = 0;
+    if(node == null)
+    {
+      return 0;
+    }
+    List<Integer> list = new ArrayList<Integer>();
+
+    list.add(node.value);
+
+    if(list.contains(node.value))
+    {
+      count++;
+    }
+    countDistinctValues(node.right);
+    countDistinctValues(node.left);
+
+    return count;
   }
 
   /**
