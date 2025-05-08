@@ -128,6 +128,7 @@ public class Traversals {
       stack.add(current.left);
       stack.add(current.right);
   }
+
   return list.size();
   }
 
@@ -140,14 +141,37 @@ public class Traversals {
    * @return true if there exists a strictly increasing root-to-leaf path, false otherwise
    */
   public static boolean hasStrictlyIncreasingPath(TreeNode<Integer> node) {
-    Stack<TreeNode<Integer>> stack = new Stack<>();
-    Set<Integer> list = new HashSet<>();
+    if (node == null) return false;
 
-    if(node == null)
-    {
+    Stack<TreeNode<Integer>> currStack = new Stack<>();
+    Stack<Integer> prevStack = new Stack<>();
+
+    currStack.push(node);
+    prevStack.push(null);  
+
+    while (!currStack.isEmpty()) {
+        TreeNode<Integer> current = currStack.pop();
+        Integer prevVal = prevStack.pop();
+
+        if (prevVal != null && current.value <= prevVal) {
+            continue; // Not strictly increasing, skip this path
+        }
+
+        // If it's a leaf node and path is valid
+        if (current.left == null && current.right == null) {
+            return true;
+        }
+
+        if (current.right != null) {
+            currStack.push(current.right);
+            prevStack.push(current.value);
+        }
+        if (current.left != null) {
+            currStack.push(current.left);
+            prevStack.push(current.value);
+        }
+      }
       return false;
-    }
-return false;
   }
 
   // OPTIONAL CHALLENGE
